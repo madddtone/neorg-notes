@@ -1,0 +1,67 @@
+* Accounting feature and task
+** multi tenant
+*** new role for multi tenant
+    - create admin role, a cross tenant role that will manage all tenants
+    - super admin tenant will be a role that manage all access for each tenant
+    - each tenant need to have specific tenant roles
+    - create tenant specific role set
+**** what to do to achieve this
+     - add admin portal role to migration
+     - add super admin role to migration
+     - change super admin check into admin portal check in selectTenant
+     - figure out how to differntiate tenant in roles
+     - create migration to update model_has_role to accept nullable tenant_id
+     - add tenant_id while creation user, delete the first way below when it succeed
+**** script tinker
+     - fetch permission by tenant id
+      @code php
+      use App\Models\User;
+      use Spatie\Permission\Models\Permission;
+
+      $user = User::find(4);
+      $tenantId = 'choco';
+
+      $permissions = Permission::whereHas('roles.users', function ($query) use ($user, $tenantId) {
+      $query->where('users.id', $user->id)
+            ->whereHas('tenants', function ($query) use ($tenantId) {
+                $query->where('tenants.id', $tenantId);
+            });
+      })->get();
+
+      $permissions;
+      @end
+* Dopamine the chemical to master for more focus
+  having a dopamine will help me to focus more on what i need to do, and keep my mind from wandering.
+
+** the law of dopamine:
+   - dopamine is something we get from doing anything we find pleasure from doing it
+   - dopamin is building overtime, the slower the build are the better the dopamine are and the longer it will last
+   - instant dopamine burst will always crash down quickly, and it's not a good thing to happen everyday
+
+** what crashes dopamine
+   below are the few things that can instantly crash your opamine and crash it:
+   -- social media
+   -- reading manga
+   -- facebook
+   -- porn
+   -- alcohol
+
+    better to avoid to do these things to avoid instant crash of dopamine and not able to focus on what you need to do
+
+     DOPAMINE SHOULD BE BUILD OVERTIME SLOWLY SO IT CAN LAST LONGER AND HELP FOCUS MORE ON THINGS THAT MATTERS
+
+** things that can slowly build up dopamine
+   below are the few things that can slowly build up dopamine, this list is effectively what you need to do everyday.
+   - cold shower/wash face with cold water
+   - exercise: running, swimming
+   - move around
+   - listening to music
+
+** the concept of pain and pleasure
+   the pleasure and pain has a scale relationship which is the more pleasure we feel the more guilty we gonna feel.
+   the more of our pleasure intake the less we gonna feel pleasure from it and the more pain we gonna feel overtime
+   so we need to balance them because the it also effect the other way around the more pain we feel for example doing
+   task we dont want to do, or cold shower the more we do it the less pain we feel because we used to it and the
+   more pleasure we gonna feel and the more we can keep our dopamine up. so not 100 percent pleasure always but make 
+   it 50/50 between pleasure and pain. which is why we need to do all the things that can keep our dopamine up all the time
+
